@@ -31,7 +31,7 @@ _dotfiles_git_config() {
     submodule.fetchjobs "8"
   )  
   
-  for key in ${(@kv)opts}; do
+  for key val in ${(@kv)opts}; do
     if [[ $($cmd" --get "$key) ]]; then
       echo "Option [$key] already set"
       return 0
