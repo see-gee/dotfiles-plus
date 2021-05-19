@@ -2,8 +2,8 @@
 # GitHub: https://github.com/see-gee/dotfiles-plus
 
 # Variables
-DOTFILES_GIT_DIR=$DOTFILES_GIT_DIR:-$HOME/.dotfiles
-DOTFILES_GIT_URL=""
+DOTFILES_GIT_DIR=${DOTFILES_GIT_DIR:=$HOME/.dotfiles}
+DOTFILES_GIT_REMOTE_URL=
 
 # Functions
 _dotfiles_git_staged() {
@@ -37,7 +37,9 @@ _dotfiles_git_ignore() {
       echo "Adding $i"
       echo "$i\n" >> $HOME/.gitignore    
     done
+    return $?
   }
+
   if [[ -f $HOME/.gitignore ]]; then
     echo "Existing .gitignore file found:"
     cat $HOME/.gitignore
@@ -53,6 +55,7 @@ _dotfiles_git_ignore() {
       return 0
     fi    
   else
+    echo "No .gitignore file found in $HOME.\nCreating .gitignore"
     _dotfiles_git_ignore_add
   fi
 }
