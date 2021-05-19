@@ -7,8 +7,12 @@ DOTFILES_GIT_URL=""
 
 # Functions
 _dotfiles_git_staged() {
-  local difflist=$(git dotfiles--no-pager diff --name-only)
-  [[ ! -z ${difflist// } ]] && return 0 || return 1
+  local difflist=$(git dotfiles --no-pager diff --name-only)
+  [[ ! -z ${difflist// } ]] && echo "$difflist"; return 0 || return 1
+}
+
+_dotfiles_git_commit() {
+  _dotfiles_git_staged
 }
 
 _dotfiles_git_alias() {
@@ -75,7 +79,7 @@ _dotfiles_git_config() {
 _dotfiles_git_init() {
   if [[ ! -d $DOTFILES_DIR ]]; then
     mkdir $DOTFILES_DIR
-    git  --git-dir="$DOTFILES_DIR" --work-tree="$HOME" init --bare
+    git  --git-dir="$DOTFILES_DIR" --work-tree="$HOME" init --bare -b main
     _dotfiles_git_config
     return 0
   else
