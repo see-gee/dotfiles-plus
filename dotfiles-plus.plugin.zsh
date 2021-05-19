@@ -65,15 +65,15 @@ _dotfiles_git_config() {
     status.showuntrackedfiles no
     submodule.recurse true
     submodule.fetchjobs $cpu_threads
-  )  
+  )
   for key val in ${(@kv)git_config_opts}; do
     if [[ "$(git dotfiles config --get $key)" ]]; then
       echo "$key already set to [$val], no changes made"      
     else
       echo "Setting $key to [$val]"
       git dotfiles config $key $val
-    fi    
-  done  
+    fi
+  done 
 }
 
 _dotfiles_git_init() {
