@@ -1,0 +1,9 @@
+#!/bin/zsh
+echo "Work In Progress"
+if [[ $(git config --global --get alias.dotfiles) ]]; then
+  echo "Git alias for 'dotfiles' found"
+  return 0
+else
+  echo "Git Alias for 'dotfiles' was not found. Creating..."
+  git config --global alias.dotfiles '!git --git-dir="$DOTFILES_DIR" --work-tree="$HOME"' 
+fi

@@ -1,0 +1,17 @@
+#!/bin/zsh
+echo "Configuring Git:"  
+threadcount:-$(getconf _NPROCESSORS_ONLN)# Get CPU thread count
+[[  $threadcount > 8 ]] && echo "$threadcount threads. Nice CPU ;)"; threadcount=8
+typeset -A git_config_opts=(
+  status.showuntrackedfiles no
+  submodule.recurse true
+  submodule.fetchjobs $cpu_threads
+)
+for key val in ${(@kv)git_config_opts}; do
+  if [[ "$(git dotfiles config --get $key)" ]]; then
+    echo "$key already set to [$val], no changes made"      
+  else
+    echo "Setting $key to [$val]"
+    git dotfiles config $key $val
+  fi
+done 

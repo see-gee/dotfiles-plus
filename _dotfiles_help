@@ -1,0 +1,21 @@
+#!/bin/zsh
+echo "Dotfiles Plus - Oh My Zsh Plugin
+  The dotfiles command is a helper script to easily keep your dotfiles 
+  organized and synchronized using a git repository.\n
+Usage:
+  dotfiles <command> <options>\n  
+Commands:
+  add               Add a file to your dotfiles repo
+  commit            Commit changes to dotfiles
+  download, pull    Download from remote dotfiles repo
+  upload, push      Upload changes to remote dotfiles repo
+  status            Show current status of dotfiles repo
+  submodule         Manipulate submodules within your repo.
+  help              Show this help
+
+Options:
+  --setup               Configure plugin for first time use. 
+                        See README.md for details
+  --check-settings      Verify your git settings for your dotfiles repo
+                        are correct
+"

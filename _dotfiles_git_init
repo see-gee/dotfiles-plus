@@ -1,0 +1,11 @@
+#!/bin/zsh
+if [[ ! -d $DOTFILES_DIR ]]; then
+  mkdir $DOTFILES_DIR
+  git  --git-dir="$DOTFILES_DIR" --work-tree="$HOME" init --bare -b main
+  _dotfiles_git_config
+  return 0
+else
+  echo "$DOTFILES_DIR directory already exists. 
+  Move or delete to create a new repository"
+  return 1
+fi

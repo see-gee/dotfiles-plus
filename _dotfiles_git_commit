@@ -1,0 +1,8 @@
+#!/bin/zsh
+if [[ _dotfiles_git_staged ]]; then
+  git dotfiles commit -am "Commit from $(whoami) on $(uname -n) @ date %Y-%m-%d_%H%M"
+  return 0
+else 
+  echo "No files staged for commit."
+  return 1
+fi
