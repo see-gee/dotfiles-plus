@@ -15,17 +15,6 @@ _dotfiles_git_commit() {
   _dotfiles_git_staged
 }
 
-_dotfiles_git_alias() {
-  echo "Work In Progress"
-  if [[ $(git config --global --get alias.dotfiles) ]]; then
-    echo "Git alias for 'dotfiles' found"
-    return 0
-  else
-    echo "Git Alias for 'dotfiles' was not found. Creating..."
-    git config --global alias.dotfiles '!git --git-dir="$DOTFILES_DIR" --work-tree="$HOME"' 
-  fi
-}
-
 _dotfiles_git_ignore() {
   _dotfiles_git_ignore_add() {
     echo "Adding a few good ideas to $HOME/.gitignore file"
@@ -90,29 +79,6 @@ _dotfiles_git_init() {
     Move or delete to create a new repository"
     return 1
   fi
-}
-
-_dotfiles_help() {
-  echo "Dotfiles Plus - Oh My Zsh Plugin\n
-    The dotfiles command is a helper script to easily keep your dotfiles 
-    organized and synchronized using a git repository.\n
-  Usage:
-    dotfiles <command> <options>\n  
-  Commands:
-    add               Add a file to your dotfiles repo
-    commit            Commit changes to dotfiles
-    download, pull    Download from remote dotfiles repo
-    upload, push      Upload changes to remote dotfiles repo
-    status            Show current status of dotfiles repo
-    submodule         Manipulate submodules within your repo.
-    help              Show this help
-
-  Options:
-    --setup               Configure plugin for first time use. 
-                          See README.md for details
-    --check-settings      Verify your git settings for your dotfiles repo
-                          are correct
-  "
 }
 
 dotfiles() {
