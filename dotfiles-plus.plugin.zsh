@@ -3,97 +3,43 @@
 
 # Variables
 DOTFILES_GIT_DIR=${DOTFILES_GIT_DIR:=$HOME/.dotfiles}
-DOTFILES_GIT_REMOTE_URL=
+DOTFILES_GIT_REPO=
 
-# Functions
-_dotfiles_git_staged() {
-  local difflist=$(git dotfiles --no-pager diff --name-only)
-  [[ ! -z ${difflist// } ]] && echo "$difflist"; return 0 || return 1
-}
+# Alias to call git with proper path options. 
+# Using a git alias is preferred over full command line substitution.
+# This checks for git alias called "dotfiles", and uses that if it exists
+# if not, command substitution will be used. You can create the git alias
+# by calling the _dotfiles_git_alias function.
+if [[ $(git config --global --get alias.dotfiles) ]]; then
+  alias _dotfiles_git_cmd="git dotfiles"
+else
+  alias _dotfiles_git_cmd="git --git-dir=$DOTFILES_GIT_DIR --work-tree=$HOME"
+fi
 
-_dotfiles_git_commit() {
-  _dotfiles_git_staged
-}
-
-_dotfiles_git_ignore() {
-  _dotfiles_git_ignore_add() {
-    echo "Adding a few good ideas to $HOME/.gitignore file"
-    ignore_list=(
-      ".ssh"          
-    )
-    echo "'# Added by dotfiles-plus plugin on '$(date)" >> $HOME/.gitignore
-    for i in ${ignore_list}; do
-      echo "Adding $i"
-      echo "$i\n" >> $HOME/.gitignore    
-    done
-    return $?
-  }
-
-  if [[ -f $HOME/.gitignore ]]; then
-    echo "Existing .gitignore file found:"
-    cat $HOME/.gitignore
-    echo "Would you like to create a backup of your existing .gitignore file \nand add some sensibile sauce to it? (Y/n)"
-    read -qs "ans?"
-    if [[ $ans = y ]]; then    
-      backup=$HOME/.gitignore.pre.dotfiles-plus
-      \cp -fp $HOME/.gitignore $backup
-      echo "$backup created"
-      _dotfiles_git_ignore_add      
-    else
-      echo "Alright. I'll just ignore your .gitignore file then."
-      return 0
-    fi    
-  else
-    echo "No .gitignore file found in $HOME.\nCreating .gitignore"
-    _dotfiles_git_ignore_add
-  fi
-}
-
-_dotfiles_git_config() {
-  echo "Configuring Git:"  
-  threadcount:-$(getconf _NPROCESSORS_ONLN)# Get CPU thread count
-  [[  $threadcount > 8 ]] && echo "$threadcount threads. Nice CPU ;)"; threadcount=8
-  typeset -A git_config_opts=(
-    status.showuntrackedfiles no
-    submodule.recurse true
-    submodule.fetchjobs $cpu_threads
-  )
-  for key val in ${(@kv)git_config_opts}; do
-    if [[ "$(git dotfiles config --get $key)" ]]; then
-      echo "$key already set to [$val], no changes made"      
-    else
-      echo "Setting $key to [$val]"
-      git dotfiles config $key $val
-    fi
-  done 
-}
-
-_dotfiles_git_init() {
-  if [[ ! -d $DOTFILES_DIR ]]; then
-    mkdir $DOTFILES_DIR
-    git  --git-dir="$DOTFILES_DIR" --work-tree="$HOME" init --bare -b main
-    _dotfiles_git_config
-    return 0
-  else
-    echo "$DOTFILES_DIR directory already exists. 
-    Move or delete to create a new repository"
-    return 1
-  fi
-}
+# Autoload Functions can be found in the same folder as this file.
+# Filenames begin with an underscore (_) and match the name of the 
+# function they call. Using the autoload feature of zsh helps reduce 
+# unnecessary system resource usage.
+# autoload -Uz ${0:h}/_*
 
 dotfiles() {
-  if [[ -z "$@" ]] || [[ $1 = "help" ]] || [[ $1 = "--help" ]] || [[ $1 = "-h" ]]
-  then
+  if [[ -z "$@" ]] || [[ $1 = "help" ]] || [[ $1 = "--help" ]] || [[ $1 = "-h" ]]; then
     _dotfiles_help
   elif [[ $1 = "download" ]]; then
-    git dotfiles pull --recurse-submodules -j8
+    _dotfiles_git_cmd pull --recurse-submodules -j8t
   elif [[ $1 = "upload" ]]; then    
-    git dotfiles push
+    _dotfiles_git_cmd push
   elif [[ $1 = "commit" ]]; then
     _dotfiles_git_staged
     _dotfiles_git_commit
+  elif [[ $1 = "submodule" ]]; then    
+    _dotfiles_git_submodule
+  elif [[ $1 = "setup" ]]; then
+    _dotfiles_git_alias
+    _dotfiles_git_config
+    _dotfiles_git_ignore_add
   else
-    git dotfiles "$@"    
+     _dotfiles_git_cmd "$@"    
   fi
 }
 

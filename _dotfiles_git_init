@@ -1,4 +1,4 @@
-#!/bin/zsh
+#autoload
 if [[ ! -d $DOTFILES_DIR ]]; then
   mkdir $DOTFILES_DIR
   git  --git-dir="$DOTFILES_DIR" --work-tree="$HOME" init --bare -b main

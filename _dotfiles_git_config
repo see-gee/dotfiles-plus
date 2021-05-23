@@ -1,17 +1,28 @@
-#!/bin/zsh
-echo "Configuring Git:"  
-threadcount:-$(getconf _NPROCESSORS_ONLN)# Get CPU thread count
+#autoload
+echo "Configuring dotfiles repo:"  
+local threadcount=$(getconf _NPROCESSORS_ONLN) 
 [[  $threadcount > 8 ]] && echo "$threadcount threads. Nice CPU ;)"; threadcount=8
-typeset -A git_config_opts=(
+
+echo "Checking for git 'dotfiles' alias:"
+if [[ $(git config --global --get alias.dotfiles) ]]; then
+  echo "Git alias for 'dotfiles' already exists."
+  return 0
+else
+  echo "Git Alias for 'dotfiles' was not found. Creating..."
+  git config --global alias.dotfiles '!git --git-dir="$DOTFILES_DIR" --work-tree="$HOME"' 
+fi
+
+echo "Setting git config options"
+typeset -A dotfiles_git_config_opts=(
   status.showuntrackedfiles no
   submodule.recurse true
   submodule.fetchjobs $cpu_threads
 )
-for key val in ${(@kv)git_config_opts}; do
-  if [[ "$(git dotfiles config --get $key)" ]]; then
+for key val in ${(@kv)dotfiles_git_config_opts}; do
+  if [[ "$(git config --get $key)" ]]; then
     echo "$key already set to [$val], no changes made"      
   else
     echo "Setting $key to [$val]"
-    git dotfiles config $key $val
+    git config --local $key $val
   fi
 done 

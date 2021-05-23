@@ -1,4 +1,4 @@
-#!/bin/zsh
+#autoload
 _dotfiles_git_ignore_add() {
   echo "Adding a few good ideas to $HOME/.gitignore file"
   ignore_list=(
@@ -12,19 +12,16 @@ _dotfiles_git_ignore_add() {
   return $?
 }
 
+
 if [[ -f $HOME/.gitignore ]]; then
   echo "Existing .gitignore file found:"
+  echo "----- begin -----"
   cat $HOME/.gitignore
-  echo "Would you like to create a backup of your existing .gitignore file \nand add some sensibile sauce to it? (Y/n)"
-  read -qs "ans?"
-  if [[ $ans = y ]]; then    
-    backup=$HOME/.gitignore.pre.dotfiles-plus
-    \cp -fp $HOME/.gitignore $backup
-    echo "$backup created"
-    _dotfiles_git_ignore_add      
-  else
-    echo "Alright. I'll just ignore your .gitignore file then."
-    return 0
+  echo "----- end -----"
+  local backupfile=$HOME/.gitignore.pre.dotfiles-plus.$(date +%Y%m%d_%H%M%S)
+  \cp -fp $HOME/.gitignore $backup
+  echo "A backup of your existing .gitignore was made: [$backupfile]"
+  _dotfiles_git_ignore_add      
   fi    
 else
   echo "No .gitignore file found in $HOME.\nCreating .gitignore"
