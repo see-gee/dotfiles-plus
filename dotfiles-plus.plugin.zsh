@@ -3,7 +3,7 @@
 
 # Variables
 DOTFILES_GIT_DIR=${DOTFILES_GIT_DIR:=$HOME/.dotfiles}
-DOTFILES_GIT_REMOTE_URL=
+DOTFILES_GIT_REMOTE_URL=$DOTFILES_GIT_REMOTE_URL:=$(git --git-dir="$DOTFILES_GIT_DIR" --work-tree="$HOME" ls-remote --get-url)
 
 # Functions
 _dotfiles_git_staged() {
