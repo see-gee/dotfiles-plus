@@ -8,9 +8,9 @@ To install Dotfiles-Plus plugin:
 2. Clone dotfiles-plus into your custom plugins folder  
   `git clone https://github.com/see-gee/dotfiles-plus.git $ZSH_CUSTOM/plugins/dotfiles-plus`  
 3. Modify your `.zshrc` file
-3.1 Add `dotfiles-plus` to the plugin section of your `.zshrc`
-  
-5. Now run `source ~/.zshrc` to apply your changes load the added plugin.
+  3.1 Add `dotfiles-plus` to the plugin section of your `.zshrc`
+  3.2 (Optional) Add `DOTFILES_DIR=$HOME/<dotfiles_git_dir>`, Defaults to `$HOME/.dotfiles` if not spefified. 
+4. Now run `source ~/.zshrc` to apply your changes load the added plugin.
 
 ### Without Oh My Zsh
 (this feature is coming soon!)
@@ -22,7 +22,7 @@ $DOTFILES_URL | (Optional) URL of your git repository which holds your dotfiles.
 
 
 ## Usage:
-The 'dotfiles' command accepts all standard git syntax, as well as a few "Helper" options that simplify some of the more advanced features git has to offer. Using `dotfiles` at the command line ensures that you are __specifically__ working with your dotfiles repository, regardless of your current working directory. This is important to note, due to the nature of having a git directory separate from the work tree on this repo. By default, your git directory will be $HOME/.dotfiles. This can be overridden by setting the variable `DOTFILES_DIR=<path_to_custom_git_dir>` in your `.zshrc` file.
+The 'dotfiles' command accepts all standard git syntax, as well as a few "Helper" options that simplify some of the more advanced features git has to offer. Using `dotfiles` at the command line ensures that you are __specifically__ working with your dotfiles repository, regardless of your current working directory. This is important to note, due to the nature of having a git directory separate from the work tree on this repo. By default, your git directory will be $HOME/.dotfiles. This can be overridden by setting the variable `DOTFILES_DIR=<path_to_custom_git_dir>` in your `.zshrc` file. Dotfiles Plus will also create a git alias called **dotfiles** whic you can also use to bypass the dotfiles wrapper script and issue direct git commands to the repo, but still easily points to your dotfiles. To use this alias, simply run `git dotfiles <git_command> <git_options>`.
 
 `dotfiles <git command> <git_options>`  
   -or-  
