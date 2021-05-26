@@ -1,0 +1,18 @@
+#autoload
+if $1 = "checkvar"
+  if [[ -z $DOTFILES_URL ]]; then   
+    echo "'$DOTFILES_URL' is not set."
+    read "url?Please enter the url for your dotfiles repository:\n"
+    DOTFILES_URL="$url"
+  fi
+elsif $1 = ]]
+echo "'$DOTFILES_URL' is set as: $DOTFILES_URL"
+
+echo "Checking connection to $DOTFILES_URL repository:"
+if [[ $(_dotfiles_git_cmd ls-remote $DOTFILES_URL) = 0 ]]; then
+  echo "Connection success! Repository url is valid."
+  return 0
+else
+  echo "Unable to validate repo url. Have you created the repo on the git server?"
+  exit 1
+fi

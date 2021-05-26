@@ -1,4 +1,5 @@
 #autoload
+echo "Checking for git 'dotfiles' alias:"
 if [[ $(git config --global --get alias.dotfiles) ]]; then
   echo "Git alias for 'dotfiles' already exists."
   return 0

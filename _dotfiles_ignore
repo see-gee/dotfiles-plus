@@ -1,0 +1,28 @@
+#autoload
+if [[ -f $HOME/.gitignore ]]; then
+  echo "Existing .gitignore file found:"
+  echo "----- begin -----"
+  cat $HOME/.gitignore
+  echo "----- end -----"
+  read -q "dobackup?Would you like to create a backup of this file before we continue? (Y/n)\n"
+  if $dobackup = y; then
+    local backupfile=$HOME/.gitignore.pre.dotfiles-plus.$(date +%Y%m%d_%H%M%S)
+    \cp -fp $HOME/.gitignore $backupfile
+    echo "A backup of your existing .gitignore was made: [$backupfile]"
+  fi
+else
+  echo "No .gitignore file found in $HOME.\nCreating .gitignore"
+fi
+
+typeset -a ignore_list=$(cat ${0:h/.gitignore})
+echo "We suggest adding these precautions to your dotfiles .gitignore file."
+echo "${ignore_list}"
+
+read -q "add_ignore?Would you like to append these to your .gitignore?"
+if $add_ignore=y; then
+  echo "'# Added by dotfiles-plus plugin on '$(date)" >> $HOME/.gitignore
+  for i in ${ignore_list}; do
+    echo "Adding $i"
+    echo "$i\n" >> $HOME/.gitignore    
+  done
+  return $?

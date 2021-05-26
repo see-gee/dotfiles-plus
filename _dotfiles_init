@@ -1,0 +1,40 @@
+#autoload
+# Make sure variables are defined
+if [[ -z $DOTFILES_DIR ]]; then 
+  echo "'$DOTFILES_DIR' is not set. This needs to be defined before the script can continue"
+  exit 1
+fi
+echo "'$DOTFILES_DIR' is set as: $DOTFILES_DIR"
+
+# Make sure $DOTFILES_URL is set
+_dotfiles_repo_url checkvar
+
+# Create and initialize the repo
+# Check if target dir exists
+if [[ ! -d $DOTFILES_DIR ]]; then
+  echo "Creating directory: $DOTFILES_DIR"
+  mkdir $DOTFILES_DIR
+else
+  echo "$DOTFILES_DIR already exists."  
+fi
+# Check if target dir already contains a git repo
+if [[ $(git rev-parse --resolve-git-dir $DOTFILES_DIR) ]]; then
+  echo "$DOTFILES_DIR is already a git repo. Aborting"
+  exit 1
+fi
+
+echo "Initializing git repo in $DOTFILES_DIR"
+[[ $(_dotfiles_git_cmd init --bare -b main) ]] && echo "init complete" || echo "There was an error initializing your dotfiles repo. Aborted"; exit $?
+
+echo "Setting up remote:"
+if [[ ! $(_dotfiles_git_cmd remote add origin $DOTFILES_GIT_REMOTE_URL) ]]; then
+  echo "Error: Remote was not set successfully"
+  exit 1
+else
+  # Verify remote url is set
+  
+  echo "Remote set: $(_dotfiles_git_cmd ls-remote --get-url)"
+fi
+    
+  
+
