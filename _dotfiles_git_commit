@@ -1,6 +1,6 @@
 #autoload
 if [[ _dotfiles_git_staged ]]; then
-   $_dotfiles_git_cmd commit -am "Commit from $(whoami) on $(uname -n) @ date %Y-%m-%d_%H%M" "$@"
+   $_dotfiles_git commit -am "Commit from $(whoami) on $(uname -n) @ date %Y-%m-%d_%H%M%S" "$@"
   return $?
 else 
   echo "No files staged for commit."

@@ -1,17 +1,19 @@
 #autoload
-echo "Setting dotfiles repo config options:"
+echo "Setting dotfiles repo (local) config options:"
 local threadcount=$(getconf _NPROCESSORS_ONLN) 
-[[  $threadcount > 8 ]] && echo "$threadcount threads. Nice CPU!"; threadcount=8
+[[ $threadcount > 8 ]] && echo "$threadcount threads. Nice CPU!"; threadcount=8
 typeset -A dotfiles_git_config_opts=(
   status.showuntrackedfiles no
   submodule.recurse true
   submodule.fetchjobs $cpu_threads
+  status.submoduleSummary true
+  fetch.prune true
 )
 for key val in ${(@kv)dotfiles_git_config_opts}; do
   if [[ "$(git config --get $key)" ]]; then
     echo "$key already set to [$val], no changes made"
   else
     echo "Setting $key to [$val]"
-    git config --local $key $val
+    _dotfiles_git config --local $key $val
   fi
 done 

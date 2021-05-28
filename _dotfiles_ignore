@@ -14,8 +14,8 @@ else
   echo "No .gitignore file found in $HOME.\nCreating .gitignore"
 fi
 
-typeset -a ignore_list=$(cat ${0:h/.gitignore})
 echo "We suggest adding these precautions to your dotfiles .gitignore file."
+typeset -a ignore_list=$(cat ${0:h/.gitignore})
 echo "${ignore_list}"
 
 read -q "add_ignore?Would you like to append these to your .gitignore?"
