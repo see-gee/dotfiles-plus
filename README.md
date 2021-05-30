@@ -1,10 +1,10 @@
 # dotfiles-plus
-Dotfiles Plus is a plugin for Oh My Zsh. The purpose is to create a simplified toolbox for creating, and managing a git repository (public, or private) for your configuration files. This allows you to esily migrate the files across all the machines you use, with the added benefit of proper version control. We use a bare repo approach which allows for version control with files in place. No messy copies, scripts, and symlinks. This also prevents git from thinking your entire home directory as a repo, but instead, __git only sees the files you add explicitly__. Another design feature is the use of submodules. By adding other repositories as submodules (such as other oh my zsh plugins and themes, you can simply pull all your related repos at the same time with one simple command.
+Dotfiles Plus is a plugin for Oh My Zsh. The purpose is to create a simplified toolbox for creating, and managing a git repository (public, or private) for your configuration files. This allows you to esily migrate the files across all the machines you use, with the added benefit of proper version control. We use a bare repo approach which allows for version control with files in place. No messy copies, scripts, and symlinks. This also prevents git from thinking your entire home directory as a repo, but instead, __git only sees the files you add explicitly__. Another design feature is the use of submodules. By adding other repositories as submodules (such as other oh my zsh plugins and themes, you can simply pull all your related repos at the same time with one simple command, and have everything go exactly where it needs to.
 
 ## Installation
 To install Dotfiles-Plus plugin:  
 ### Oh My Zsh
-1. Create your dotfiles repository on your preferred hosting service (ie: github.com) before continuing. If this step is not done, the script will fail when validating the URL you provide. Git must be able to successfully connect to the repo during initial setup.
+1. Create your dotfiles repository on your preferred hosting service (ie: github.com) before continuing. This can be a public, or private repo, but no matter what, we do not recommend that you include any private files such as If this step is not done, the script will fail when validating the URL you provide. Git must be able to successfully connect to the repo during initial setup.
 2. Clone dotfiles-plus into your custom plugins folder  
   `git clone https://github.com/see-gee/dotfiles-plus.git $ZSH_CUSTOM/plugins/dotfiles-plus`  
 3. Modify your `.zshrc` file
