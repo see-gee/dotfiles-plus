@@ -4,8 +4,9 @@ Dotfiles Plus is a plugin for Oh My Zsh. The purpose is to create a simplified t
 ## Installation
 To install Dotfiles-Plus plugin:  
 ### Oh My Zsh
-1. Create your dotfiles repository on your preferred hosting service (ie: github.com) before continuing. This can be a public, or private repo, but no matter what, we do not recommend that you include any private files such as If this step is not done, the script will fail when validating the URL you provide. Git must be able to successfully connect to the repo during initial setup.
-2. Clone dotfiles-plus into your custom plugins folder  
+1. Create your dotfiles repository on your preferred hosting service (ie: github.com) before continuing. This can be a public or private repo. 
+If this step is not done, the script will fail when validating the URL you provide. Git must be able to successfully connect to the repo during initial setup.
+3. Clone dotfiles-plus into your custom plugins folder  
   `git clone https://github.com/see-gee/dotfiles-plus.git $ZSH_CUSTOM/plugins/dotfiles-plus`  
 3. Modify your `.zshrc` file
   3.1 Add `dotfiles-plus` to the plugin section of your `.zshrc`
