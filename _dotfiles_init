@@ -1,0 +1,47 @@
+#autoload
+# Check/Set $DOTFILES_DIR
+if [[ -z $DOTFILES_DIR ]]; then 
+  echo "'$DOTFILES_DIR' is not set. This needs to be defined before the script can continue"
+  exit 1
+fi
+echo "'$DOTFILES_DIR' is set as: $DOTFILES_DIR"
+
+# Check/Set Git alias
+_dotfiles_git_alias
+
+# Create and initialize the repo
+# Check if target dir exists
+if [[ ! -d $DOTFILES_DIR ]]; then
+  echo "Creating directory: $DOTFILES_DIR"
+  mkdir $DOTFILES_DIR
+else
+  echo "$DOTFILES_DIR already exists."  
+fi
+# Check for existing git repo
+if [[ $(git rev-parse --resolve-git-dir $DOTFILES_DIR) ]]; then
+  echo "$DOTFILES_DIR is already a git repo. Aborting"
+  return 1
+else
+  echo "Initializing git repo in $DOTFILES_DIR"
+  _dotfiles_git_cmd init --bare -b main
+  [[ $? = 0 ]] && echo "init complete" || echo "There was an error initializing your dotfiles repo. Aborted"; return 1
+fi
+
+# Check/Set Git config options
+_dotfiles_config
+
+# Check/Set $DOTFILES_URL
+_dotfiles_url
+
+# Add a file
+echo "adding .zshrc"
+_dotfiles_git add .zshrc
+echo "Committing..."
+_dotfiles_git commit -m "Initial Upload"
+echo "Pushing new repo to remote"
+_dotfiles_git push -u origin main
+
+
+
+  
+

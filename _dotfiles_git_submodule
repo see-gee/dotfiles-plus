@@ -1,0 +1,7 @@
+#autoload
+if [[ $2 = "status" ]]; then
+  _dotfiles_git_cmd submodule status --recursive
+elif
+  [[ -z $2 ]] || [[ $2 = "help" ]]
+  echo "Submodule Help has yet to be written"
+fi

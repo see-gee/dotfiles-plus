@@ -1,0 +1,9 @@
+#autoload
+echo "Checking for git 'dotfiles' alias:"
+if [[ $(git config --global --get alias.dotfiles) ]]; then
+  echo "Git alias for 'dotfiles' exists."
+  return 0
+else
+  echo "Git alias for 'dotfiles' was not found. Creating..."
+  git config --global alias.dotfiles '!git --git-dir="$DOTFILES_DIR" --work-tree="$HOME"' 
+fi

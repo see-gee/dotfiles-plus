@@ -1,0 +1,3 @@
+#autoload
+local difflist=$(git dotfiles --no-pager diff --name-only)
+[[ ! -z ${difflist// } ]] && echo "$difflist"; return 0 || return 1
