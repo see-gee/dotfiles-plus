@@ -9,15 +9,15 @@ If this step is not done, the script will fail when validating the URL you provi
 3. Clone dotfiles-plus into your custom plugins folder  
   `git clone https://github.com/see-gee/dotfiles-plus.git $ZSH_CUSTOM/plugins/dotfiles-plus`  
 3. Modify your `.zshrc` file  
-  3.1 Add `dotfiles-plus` to the plugin section of your `.zshrc`  
-  3.2 (Optional) Add `DOTFILES_DIR=$HOME/<dotfiles_git_dir>`, Defaults to `$HOME/.dotfiles` if not spefified. 
+  3. Add `dotfiles-plus` to the plugin section of your `.zshrc`  
+  3. (Optional) Add `DOTFILES_DIR=$HOME/<dotfiles_git_dir>`, Defaults to `$HOME/.dotfiles` if not spefified.  
 4. Now run `source ~/.zshrc` to apply your changes load the added plugin.  
 
 ### Without Oh My Zsh
 (this feature is coming soon!)
 
 ## Variables:
-$DOTFILES_DIR | Directory used to hold the git data. Defaults to `$HOME/.dotfiles` if not set.
+$DOTFILES_DIR | Directory used to hold the git data. Defaults to `$HOME/.dotfiles` if not set.  
 $DOTFILES_URL | (Optional) URL of your git repository which holds your dotfiles. If this variable is not set in your `.zshrc` you will be prompted for an URL during the initialization of your dotfiles repository. Once your repository url
 
 
